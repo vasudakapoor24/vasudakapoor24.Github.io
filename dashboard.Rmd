@@ -1,0 +1,76 @@
+---
+title: "Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    source: embed
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(p8105.datasets)
+library(plotly)
+```
+
+```{r}
+# Load data and clean names
+data("rest_inspec")
+rest_inspec_df = rest_inspec %>%
+  sample_n(10000) %>%
+  janitor::clean_names()
+```
+
+```{r}
+#plot1 
+rest_inspec_df1 = rest_inspec_df %>%
+  filter(cuisine_description == "Chinese") %>%
+  plot_ly(y = ~score, x = ~boro, color = ~boro, type = "box", colors = "viridis") %>%
+  layout(xaxis = list(categoryorder = "total ascending"))
+```
+
+```{r}
+#plot2
+rest_inspec_df2 = rest_inspec_df %>%
+  group_by(boro) %>%
+  count(grade)
+
+plot2 = plot_ly(rest_inspec_df2, x = ~boro, y = ~n, type = 'bar', color = ~grade, colors = "viridis") %>% layout(yaxis = list(title = 'Count', range = c(0,2000)), xaxis = list(title = 'Borough'), barmode = 'stack') %>%
+  layout(xaxis = list(categoryorder = "total ascending"))
+```
+
+```{r}
+# plot 3
+plot3 = rest_inspec_df %>%
+  distinct(camis, .keep_all = TRUE) %>%
+  mutate(
+    text_rest = str_c( "Violation: ", violation_description)
+  ) %>%
+  plot_ly(y = ~score, x = ~grade, color = ~grade, colors = "viridis", type = "scatter", text = ~text_rest)
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Median score of Chinese restaurants in different boroughs of NYC
+
+```{r}
+plot3
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Grade distribution by borough
+
+```{r}
+plot2
+```
+
+### Scores of all distinct restaurants by grade with violation descriptions
+
+```{r}
+rest_inspec_df1
+```
+

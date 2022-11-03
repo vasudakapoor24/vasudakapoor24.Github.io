@@ -1,0 +1,17 @@
+---
+title: "Hello!"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+I am Vasuda Kapoor, an MPH candidate at Columbia University. 
+
+I am passionate about utilizing novel biostatistical techniques to understand disease risk in cancer patients and improve their health outcomes in minority communities. 
+
+![](images/headshot.jpg)
+
+I am interested in public health data science and have prior experience with coding in R, Python and SAS. My [Github](https://github.com/vasudakapoor24) account contains some of the projects I have worked on recently. 
+
+You can also view my profile on  [LinkedIn](https://www.linkedin.com/in/vasuda-kapoor-4608461a5/). 
